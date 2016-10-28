@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,9 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view(('admin.posts.index'));
+        $posts = Post::orderBy('id', 'desc')->paginate(10);
+
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -24,7 +32,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.index');
     }
 
     /**
@@ -35,7 +43,13 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = new Post();
+        $post->title = $request->title;
+        $post->body = $request->body;
+
+        $request->user()->posts()->save($post);
+
+        return redirect(route('admin.posts.index'));
     }
 
     /**
