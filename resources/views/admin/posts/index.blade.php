@@ -7,8 +7,15 @@
             <h1>All Posts</h1>
             <ul>
                 @foreach($posts as $post)
-                    <li><a href="#">{{ $post->title }}</a></li>
-
+                    <li><a href="{{ route('admin.posts.edit', $post->id) }}">{{ $post->title }}</a>
+                        {!! Form::open([
+                        'route'=>['admin.posts.destroy', $post->id],
+                        'method'=>'delete',
+                        'class'=>'destroy'
+                        ]) !!}
+                        {!! Form::submit('Delete') !!}
+                        {!! Form::close() !!}
+                    </li>
                 @endforeach
             </ul>
             <div class="text-center">{!! $posts->links() !!}</div>

@@ -22,7 +22,7 @@
 <footer>
     <div class="container">
         &copy; {{ date("Y") }}  CVO De Verdieping
-        <a href="#">Admin</a>
+        <a href="{{ route('admin.posts.index') }}">Admin</a>
     </div>
 </footer>
 </body>
